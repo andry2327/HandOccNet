@@ -23,7 +23,7 @@ import data.POV_SURGERY.datautil as dataset_util
 mano = MANO()
 
 
-class POVSURGERY(torch.utils.data.Dataset):
+class POV_SURGERY(torch.utils.data.Dataset):
     def __init__(self, transform, data_split):
         self.transform = transform
         self.data_split = data_split
