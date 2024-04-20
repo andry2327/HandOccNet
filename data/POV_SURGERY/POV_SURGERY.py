@@ -20,8 +20,13 @@ import sys
 sys.path.append('/content/HandOccNet/data')
 sys.path.append('/content/HandOccNet')
 import data.POV_SURGERY.datautil as dataset_util
+
 mano = MANO()
 
+''' ------------- INPUT PARAMETERS ------------- '''
+# base path for POV_Surgery_data 
+BASE_DATA = '/content/gdrive/MyDrive/Thesis/POV_Surgery_data'
+''' -------------------------------------------- '''
 
 class POV_SURGERY(torch.utils.data.Dataset):
     def __init__(self, transform, data_split):
@@ -47,15 +52,16 @@ class POV_SURGERY(torch.utils.data.Dataset):
 
         if self.data_split == 'train':
             self.mode = 'train'
-            self.base_info = pickle.load(open('/home/ray/code_release/pov_surgery_dataset/POV_Surgery_data/handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl', 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
         elif self.data_split == 'validation':
             self.mode = 'validation'
-            self.base_info = pickle.load(open('/home/ray/code_release/pov_surgery_dataset/POV_Surgery_data/handoccnet_train/2d_repro_ho3d_style_test_cleaned.pkl', 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
         else:
             self.mode = 'demo'
-            self.base_info = pickle.load(open('/media/rui/mac_data/POV_surgery/demo_idx_selected.pkl', 'rb'))
+            #self.base_info = pickle.load(open('/media/rui/mac_data/POV_surgery/demo_idx_selected.pkl', 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_test_cleaned.pkl'), 'rb'))
             temp_list =  self.base_info['imgname']
             temp_anno = self.base_info['annoname']
             temp_o = []
@@ -244,7 +250,6 @@ class POV_SURGERY(torch.utils.data.Dataset):
         return len(self.set_list)
     def __getitem__(self, idx):
         sample = {}
-        BASE_DATA = '/home/ray/code_release/pov_surgery_dataset/POV_Surgery_data'
         if self.mode != 'demo':
             seqName, id = self.set_list[idx].split("/")
             img = Image.open(os.path.join(BASE_DATA,'color', seqName, id + '.jpg')).convert("RGB")
