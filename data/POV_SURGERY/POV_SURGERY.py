@@ -29,7 +29,7 @@ BASE_DATA = '/content/gdrive/MyDrive/Thesis/POV_Surgery_data'
 ''' -------------------------------------------- '''
 
 class POV_SURGERY(torch.utils.data.Dataset):
-    def __init__(self, transform, data_split):
+    def __init__(self, transform, data_split='validation'):
         self.transform = transform
         self.data_split = data_split
         # self.root_dir = osp.join('..', 'data', 'HO3D', 'data')
