@@ -116,7 +116,7 @@ class Tester(Base):
     def _make_batch_generator(self):
         # data load and construct batch generator
         self.logger.info("Creating dataset...")
-        self.test_dataset = eval(cfg.testset)(transforms.ToTensor(), "test")
+        self.test_dataset = eval(cfg.testset)(transforms.ToTensor(), "validation")
         self.batch_generator = DataLoader(dataset=self.test_dataset, batch_size=cfg.num_gpus*cfg.test_batch_size, shuffle=False, num_workers=cfg.num_thread, pin_memory=True)
        
     def _make_model(self):

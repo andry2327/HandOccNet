@@ -25,11 +25,11 @@ mano = MANO()
 
 ''' ------------- INPUT PARAMETERS ------------- '''
 # base path for POV_Surgery_data 
-BASE_DATA = '/content/gdrive/MyDrive/Thesis/POV_Surgery_data'
+BASE_DATA_PATH = '/content/gdrive/MyDrive/Thesis/POV_Surgery_data'
 ''' -------------------------------------------- '''
 
 class POV_SURGERY(torch.utils.data.Dataset):
-    def __init__(self, transform, data_split='validation'):
+    def __init__(self, transform, data_split):
         self.transform = transform
         self.data_split = data_split
         # self.root_dir = osp.join('..', 'data', 'HO3D', 'data')
@@ -52,16 +52,16 @@ class POV_SURGERY(torch.utils.data.Dataset):
 
         if self.data_split == 'train':
             self.mode = 'train'
-            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA_PATH, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
         elif self.data_split == 'validation':
             self.mode = 'validation'
-            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA_PATH, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
         else:
             self.mode = 'demo'
             #self.base_info = pickle.load(open('/media/rui/mac_data/POV_surgery/demo_idx_selected.pkl', 'rb'))
-            self.base_info = pickle.load(open(os.path.join(BASE_DATA, 'handoccnet_train/2d_repro_ho3d_style_test_cleaned.pkl'), 'rb'))
+            self.base_info = pickle.load(open(os.path.join(BASE_DATA_PATH, 'handoccnet_train/2d_repro_ho3d_style_test_cleaned.pkl'), 'rb'))
             temp_list =  self.base_info['imgname']
             temp_anno = self.base_info['annoname']
             temp_o = []
@@ -252,8 +252,8 @@ class POV_SURGERY(torch.utils.data.Dataset):
         sample = {}
         if self.mode != 'demo':
             seqName, id = self.set_list[idx].split("/")
-            img = Image.open(os.path.join(BASE_DATA,'color', seqName, id + '.jpg')).convert("RGB")
-            frame_anno = pickle.load(open(os.path.join(BASE_DATA,'annotation', seqName, id + '.pkl'), 'rb'))
+            img = Image.open(os.path.join(BASE_DATA_PATH,'color', seqName, id + '.jpg')).convert("RGB")
+            frame_anno = pickle.load(open(os.path.join(BASE_DATA_PATH,'annotation', seqName, id + '.pkl'), 'rb'))
 
             sample["seqName"] = seqName
             sample["id"] = id
@@ -292,7 +292,7 @@ class POV_SURGERY(torch.utils.data.Dataset):
                 # self.mano_params[idx]
 
                 # object information
-                gray = Image.open(os.path.join(BASE_DATA,'mask/', seqName, id + '.png'))
+                gray = Image.open(os.path.join(BASE_DATA_PATH,'mask/', seqName, id + '.png'))
                 gray = np.asarray(gray)
                 gray = gray.copy()
                 # if not (np.any(gray==100) and np.any(gray==200)):
@@ -360,7 +360,7 @@ class POV_SURGERY(torch.utils.data.Dataset):
                 # self.mano_params[idx]
 
                 # object information
-                gray = Image.open(os.path.join(BASE_DATA,'mask', seqName, id + '.png'))
+                gray = Image.open(os.path.join(BASE_DATA_PATH,'mask', seqName, id + '.png'))
                 gray = np.asarray(gray)
                 gray = gray.copy()
                 # if not (np.any(gray==100) and np.any(gray==200)):
