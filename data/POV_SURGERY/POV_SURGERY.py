@@ -55,7 +55,6 @@ class POV_SURGERY(torch.utils.data.Dataset):
             self.base_info = pickle.load(open(os.path.join(BASE_DATA_PATH, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
         elif self.data_split == 'validation':
-            print('WORKING')
             self.mode = 'validation'
             self.base_info = pickle.load(open(os.path.join(BASE_DATA_PATH, 'handoccnet_train/2d_repro_ho3d_style_hocc_cleaned.pkl'), 'rb'))
             self.set_list = list(self.base_info.keys())
